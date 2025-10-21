@@ -1,0 +1,82 @@
+[
+  {
+    "configId": 4,
+    "cpu": "Xeon E5-1650, 3.2GHz",
+    "cores": 6,
+    "cores_total": 6,
+    "ram": "64 GB",
+    "storage": "960 GB SSD",
+    "monthlyPriceEur": 70,
+    "storage_total": 960
+  },
+  {
+    "configId": 5,
+    "cpu": "Xeon E-2288G, 3.7GHz",
+    "cores": 8,
+    "cores_total": 8,
+    "ram": "64 GB",
+    "storage": "480 GB NVMe SSD",
+    "monthlyPriceEur": 100,
+    "storage_total": 480
+  },
+  {
+    "configId": 6,
+    "cpu": "AMD Ryzen 9 5950X, 3.4GHz",
+    "cores": 16,
+    "cores_total": 16,
+    "ram": "128 GB",
+    "storage": "1 TB NVMe SSD",
+    "monthlyPriceEur": 180,
+    "storage_total": 1024
+  },
+  {
+    "configId": 11,
+    "cpu": "2 x AMD Opteron 4170 HE, 2.1GHz",
+    "cores": 6,
+    "cores_total": 12,
+    "ram": "64 GB",
+    "storage": "2 x 1 TB SATA",
+    "monthlyPriceEur": 55,
+    "storage_total": 2048
+  },
+  {
+    "configId": 20,
+    "cpu": "2 x Xeon E5-2630v4, 2.2GHz",
+    "cores": 10,
+    "cores_total": 20,
+    "ram": "64 GB",
+    "storage": "2 x 300 GB SAS 15K",
+    "monthlyPriceEur": 155,
+    "storage_total": 600
+  },
+  {
+    "configId": 21,
+    "cpu": "2 x Xeon E5-2630v3, 2.4GHz",
+    "cores": 8,
+    "cores_total": 16,
+    "ram": "64 GB",
+    "storage": "4 x 1 TB SATA",
+    "monthlyPriceEur": 165,
+    "storage_total": 4096
+  },
+  {
+    "configId": 22,
+    "cpu": "2 x Xeon E5-2643v2, 3.5GHz",
+    "cores": 6,
+    "cores_total": 12,
+    "ram": "64 GB",
+    "storage": "4 x 960 GB SSD",
+    "monthlyPriceEur": 190,
+    "storage_total": 3840
+  },
+  {
+    "configId": 23,
+    "cpu": "2 x Xeon E5-2680v3, 2.5GHz",
+    "cores": 12,
+    "cores_total": 24,
+    "ram": "64 GB",
+    "storage": "240 GB SSD",
+    "monthlyPriceEur": 192,
+    "storage_total": 240
+  }
+]

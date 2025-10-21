@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="emerald">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPS Tariff Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 18px; max-width: 900px; margin: 0 auto; padding: 20px; }
+        section { margin-bottom: 20px; }
+        label { margin-bottom: 5px; }
+        input[type="range"] { width: 100%; }
+        .slider-value { font-weight: bold; }
+        .toggle { margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .switch { display: flex; flex-wrap: wrap; gap: 10px; }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-base-200 min-h-screen">
+    <header class="navbar mb-6 max-w-5xl mx-auto">
+        <h1 class="text-xl font-bold">VPS Tariff Plan Calculator</h1>
+    </header>
+    <main class="max-w-5xl mx-auto px-4 pb-10 space-y-6">
+        <section id="server" class="card bg-base-100 shadow">
+            <div class="card-body space-y-4">
+                <h2 class="card-title">Server Configuration</h2>
+                <label class="form-control w-full max-w-xs">
+                    <span class="label">
+                        <span class="label-text">Select Preset</span>
+                    </span>
+                    <select id="config-select" class="select select-bordered">
+                        <option value="">Custom</option>
+                    </select>
+                </label>
+                <label class="form-control w-full max-w-xs">
+                    <span class="label">
+                        <span class="label-text">Number of CPU Cores</span>
+                    </span>
+                    <select id="cores" class="select select-bordered">
+                        <option value="2">2</option>
+                        <option value="4">4</option>
+                        <option value="6">6</option>
+                        <option value="8">8</option>
+                        <option value="12" selected>12</option>
+                        <option value="16">16</option>
+                        <option value="20">20</option>
+                        <option value="24">24</option>
+                    </select>
+                </label>
+
+                <label class="form-control w-full max-w-xs">
+                    <span class="label">
+                        <span class="label-text">Amount of RAM (GB)</span>
+                    </span>
+                    <select id="ram" class="select select-bordered">
+                        <option value="8">8</option>
+                        <option value="16">16</option>
+                        <option value="32">32</option>
+                        <option value="64" selected>64</option>
+                        <option value="128">128</option>
+                    </select>
+                </label>
+
+                <label class="form-control w-full max-w-xs">
+                    <span class="label">
+                        <span class="label-text">Amount of Storage (GB)</span>
+                    </span>
+                    <select id="storage" class="select select-bordered">
+                        <option value="120">120</option>
+                        <option value="240">240</option>
+                        <option value="256">256</option>
+                        <option value="480">480</option>
+                        <option value="600">600</option>
+                        <option value="960">960</option>
+                        <option value="1000">1000</option>
+                        <option value="2000">2000</option>
+                        <option value="3120">3120</option>
+                        <option value="3480">3480</option>
+                        <option value="3840">3840</option>
+                        <option value="4000">4000</option>
+                        <option value="7744">7744</option>
+                        <option value="8120">8120</option>
+                    </select>
+                </label>
+
+                <label class="form-control w-full max-w-xs">
+                    <span class="label">
+                        <span class="label-text">Rent Price per Month (€)</span>
+                    </span>
+                    <input type="number" id="rent" value="55" min="0" step="0.01" class="input input-bordered">
+                </label>
+            </div>
+        </section>
+
+        <section id="services" class="card bg-base-100 shadow">
+            <div class="card-body space-y-2">
+                <h2 class="card-title">Services</h2>
+                <ul class="list-disc list-inside space-y-1 text-sm">
+                    <li>IPv4 addresses: €0.5 per allocated IP/month</li>
+                    <li>VPS control panel: €1 per physical CPU core/month (included)</li>
+                    <li>Customer self-service portal: €5/server/month (included)</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="optional" class="card bg-base-100 shadow">
+            <div class="card-body space-y-3">
+                <h2 class="card-title">Optional Services</h2>
+                <label class="label cursor-pointer justify-start gap-3">
+                    <input type="checkbox" id="vlan" value="30" class="checkbox checkbox-primary">
+                    <span class="label-text block text-wrap">Extra 10G VLAN port for servers interconnect: €30/month</span>
+                </label>
+                <label class="label cursor-pointer justify-start gap-3">
+                    <input type="checkbox" id="switch" value="25" class="checkbox checkbox-primary">
+                    <span class="label-text block text-wrap">10GB switch for server interconnect: €25/month</span>
+                </label>
+                <label class="label cursor-pointer justify-start gap-3">
+                    <input type="checkbox" id="traffic" value="20" class="checkbox checkbox-primary">
+                    <span class="label-text block text-wrap">Outgoing traffic 50TB/month: €20</span>
+                </label>
+            </div>
+        </section>
+
+        <section id="parameters" class="card bg-base-100 shadow">
+            <div class="card-body space-y-5">
+                <h2 class="card-title">Parameters</h2>
+                <label class="form-control w-full max-w-md">
+                    <span class="label">
+                        <span class="label-text">Revenue (% of monthly rent)</span>
+                        <span class="label-text-alt">Current: <span id="revenue-value">50</span>%</span>
+                    </span>
+                    <input type="range" id="revenue" min="0" max="100" step="1" value="50" class="range range-primary">
+                </label>
+
+                <label class="form-control w-full max-w-md">
+                    <span class="label">
+                        <span class="label-text">Sold Capacity</span>
+                        <span class="label-text-alt">Current: <span id="sold-value">75</span>%</span>
+                    </span>
+                    <input type="range" id="sold" min="0" max="100" step="5" value="75" class="range range-primary">
+                </label>
+
+                <div class="form-control flex items-center">
+                    <span class="label-text mb-2 me-2">Usage Pattern</span>
+                    <div class="join join-vertical sm:join-horizontal">
+                        <label class="label cursor-pointer join-item gap-2 px-2">
+                            <input type="radio" class="radio radio-primary" name="pattern" value="tiny" checked>
+                            <span class="label-text">Only Tiny</span>
+                        </label>
+                        <label class="label cursor-pointer join-item gap-2 px-2">
+                            <input type="radio" class="radio radio-primary" name="pattern" value="progressive">
+                            <span class="label-text">Progressive</span>
+                        </label>
+                        <label class="label cursor-pointer join-item gap-2 px-2">
+                            <input type="radio" class="radio radio-primary" name="pattern" value="uniform">
+                            <span class="label-text">Uniform</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-control flex items-center">
+                    <span class="label-text mb-2 me-2">Show Tariffs As</span>
+                    <div class="join join-vertical sm:join-horizontal">
+                        <label class="label cursor-pointer join-item gap-2 px-2">
+                            <input type="radio" class="radio radio-primary" name="display" value="cards" checked>
+                            <span class="label-text">Cards</span>
+                        </label>
+                        <label class="label cursor-pointer join-item gap-2 px-2">
+                            <input type="radio" class="radio radio-primary" name="display" value="table">
+                            <span class="label-text">Table</span>
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold">Sold instances</h3>
+                    <div id="deployment-counts" class="flex flex-wrap gap-2"></div>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold">Sold totals</h3>
+                    <dl class="text-sm space-y-1">
+                        <div class="flex justify-between">
+                            <dt>Instances</dt>
+                            <dd class="font-semibold" id="sold-total-instances">0</dd>
+                        </div>
+                        <div class="flex justify-between">
+                            <dt>vCPU cores</dt>
+                            <dd class="font-semibold" id="sold-total-vcpus">0</dd>
+                        </div>
+                        <div class="flex justify-between">
+                            <dt>RAM (GB)</dt>
+                            <dd class="font-semibold" id="sold-total-ram">0</dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </section>
+
+        <div id="results" class="mt-6"></div>
+
+        <section id="output" class="card bg-base-100 shadow">
+            <div class="card-body space-y-4">
+                <h2 class="card-title">Calculated Values</h2>
+                <div class="stats stats-vertical md:stats-horizontal w-full">
+                    <div class="stat">
+                        <div class="stat-title">Total Cost</div>
+                        <div class="stat-value">€<span id="total-cost">0</span></div>
+                        <div class="stat-desc text-xs block text-wrap" id="total-cost-breakdown">Server rent + optional services + software fees + IPv4 allocation</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-title">Expected Revenue</div>
+                        <div class="stat-value">€<span id="expected-revenue">0</span></div>
+                        <div class="stat-desc text-xs block text-wrap" id="expected-revenue-detail">—</div>
+                    </div>
+                </div>
+                <div class="stats stats-vertical md:stats-horizontal w-full">
+                    <div class="stat">
+                        <div class="stat-title">Expected Profit</div>
+                        <div class="stat-value">€<span id="expected-profit">0</span></div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-title">Oversell Factor (CPU)</div>
+                        <div class="stat-value">x<span id="oversell-cpu">0.00</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const instances = [
+            { type: 'Tiny', vcpus: 1, ram: 1 },
+            { type: 'Small', vcpus: 1, ram: 2 },
+            { type: 'Medium', vcpus: 2, ram: 4 },
+            { type: 'Large', vcpus: 4, ram: 8 },
+            { type: 'Extra Large', vcpus: 8, ram: 16 }
+        ];
+
+        const instanceMap = Object.fromEntries(instances.map(inst => [inst.type, inst]));
+        const instanceOrder = instances.map(inst => inst.type);
+
+        const patternWeights = {
+            tiny: {
+                'Tiny': 1,
+                'Small': 0,
+                'Medium': 0,
+                'Large': 0,
+                'Extra Large': 0
+            },
+            uniform: {
+                'Tiny': 1,
+                'Small': 1,
+                'Medium': 1,
+                'Large': 1,
+                'Extra Large': 1
+            },
+            progressive: {
+                'Tiny': 16,
+                'Small': 8,
+                'Medium': 4,
+                'Large': 2,
+                'Extra Large': 1
+            }
+        };
+
+        const elements = {
+            revenue: document.getElementById('revenue'),
+            revenueValue: document.getElementById('revenue-value'),
+            sold: document.getElementById('sold'),
+            soldValue: document.getElementById('sold-value'),
+            cores: document.getElementById('cores'),
+            ram: document.getElementById('ram'),
+            storage: document.getElementById('storage'),
+            rent: document.getElementById('rent'),
+            vlan: document.getElementById('vlan'),
+            switchEl: document.getElementById('switch'), // renamed to avoid keyword conflict
+            traffic: document.getElementById('traffic'),
+            pattern: document.querySelectorAll('input[name="pattern"]'),
+            display: document.querySelectorAll('input[name="display"]'),
+            totalCost: document.getElementById('total-cost'),
+            results: document.getElementById('results'),
+            oversellCpuEl: document.getElementById('oversell-cpu'),
+            configSelect: document.getElementById('config-select'),
+            soldTotalInstances: document.getElementById('sold-total-instances'),
+            soldTotalVcpus: document.getElementById('sold-total-vcpus'),
+            soldTotalRam: document.getElementById('sold-total-ram'),
+            totalCostBreakdown: document.getElementById('total-cost-breakdown'),
+            expectedRevenue: document.getElementById('expected-revenue'),
+            expectedProfit: document.getElementById('expected-profit'),
+            expectedRevenueDetail: document.getElementById('expected-revenue-detail')
+        };
+
+        let configurations = [];
+
+        function ensureOption(selectEl, value, label) {
+            const stringValue = String(value);
+            const exists = Array.from(selectEl.options).some(option => option.value === stringValue);
+            if (!exists) {
+                const option = document.createElement('option');
+                option.value = stringValue;
+                option.textContent = label || stringValue;
+                selectEl.appendChild(option);
+            }
+            selectEl.value = stringValue;
+        }
+
+        function ensureStorageOption(totalGigabytes, label) {
+            const value = String(totalGigabytes);
+            const existing = Array.from(elements.storage.options).find(option => option.value === value);
+            if (!existing) {
+                const option = document.createElement('option');
+                option.value = value;
+                option.textContent = label || `${value} GB`;
+                elements.storage.appendChild(option);
+            }
+            elements.storage.value = value;
+        }
+
+        function setOversellColor(value) {
+            if (!elements.oversellCpuEl) return;
+            const parent = elements.oversellCpuEl.closest('.stat-value');
+            if (parent) {
+                parent.classList.remove('text-success', 'text-warning', 'text-error');
+                if (value <= 4) {
+                    parent.classList.add('text-success');
+                } else if (value <= 6) {
+                    parent.classList.add('text-warning');
+                } else {
+                    parent.classList.add('text-error');
+                }
+            }
+        }
+
+        function computePatternCounts(totalRam, weights) {
+            const counts = Object.fromEntries(instanceOrder.map(type => [type, 0]));
+            if (!totalRam || totalRam <= 0) {
+                return counts;
+            }
+            const weightRamSum = instanceOrder.reduce((sum, type) => {
+                const inst = instanceMap[type];
+                const weight = weights[type] || 0;
+                return sum + ((inst?.ram || 0) * weight);
+            }, 0);
+            const targetRamByType = {};
+            let usedRam = 0;
+            instanceOrder.forEach(type => {
+                const inst = instanceMap[type];
+                if (!inst || inst.ram <= 0) {
+                    targetRamByType[type] = 0;
+                    return;
+                }
+                const weight = weights[type] || 0;
+                const share = weightRamSum > 0 ? ((inst.ram * weight) / weightRamSum) : (1 / instanceOrder.length);
+                const targetRam = share * totalRam;
+                targetRamByType[type] = targetRam;
+                const baseCount = Math.floor(targetRam / inst.ram);
+                counts[type] = baseCount;
+                usedRam += baseCount * inst.ram;
+            });
+            let remaining = Math.max(0, totalRam - usedRam);
+            const eligibleTypes = instanceOrder.filter(type => {
+                const inst = instanceMap[type];
+                return (weights[type] || 0) > 0 && inst && inst.ram > 0;
+            });
+            const minRam = Math.min(...eligibleTypes.map(type => instanceMap[type].ram));
+            if (!Number.isFinite(minRam) || minRam <= 0) {
+                return counts;
+            }
+            const epsilon = 1e-6;
+            while (remaining + epsilon >= minRam) {
+                let bestType = null;
+                let bestScore = -Infinity;
+                eligibleTypes.forEach(type => {
+                    const inst = instanceMap[type];
+                    if (!inst || inst.ram > remaining + epsilon) {
+                        return;
+                    }
+                    const used = counts[type] * inst.ram;
+                    const target = targetRamByType[type] || 0;
+                    const need = target - used;
+                    const score = need / inst.ram;
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestType = type;
+                    }
+                });
+                if (!bestType) {
+                    break;
+                }
+                counts[bestType] += 1;
+                remaining -= instanceMap[bestType].ram;
+            }
+            return counts;
+        }
+
+        function renderDeploymentCounts(counts) {
+            const container = document.getElementById('deployment-counts');
+            if (!container) return;
+            const html = instanceOrder.map(type => {
+                const inst = instanceMap[type];
+                const count = counts[type] || 0;
+                return `<div class="badge badge-outline gap-2">${inst.type}: <span class="font-semibold">${count}</span></div>`;
+            }).join('');
+            container.innerHTML = html;
+        }
+
+        function applyConfiguration(config) {
+            if (!config) return;
+            const totalCores = config.cores_total ?? config.cores;
+            if (totalCores) {
+                ensureOption(elements.cores, totalCores, `${totalCores}`);
+            }
+            const ramValue = parseInt(config.ram, 10);
+            if (!Number.isNaN(ramValue)) {
+                elements.ram.value = String(ramValue);
+            }
+            ensureStorageOption(config.storage_total, config.storage);
+            elements.rent.value = String(config.monthlyPriceEur);
+            calculate();
+        }
+
+        function populateConfigurations(configs) {
+            if (!elements.configSelect) return;
+            elements.configSelect.innerHTML = '<option value="">Custom</option>';
+            configs.forEach(config => {
+                const option = document.createElement('option');
+                option.value = String(config.configId);
+                option.textContent = `#${config.configId} · ${config.cpu} · ${config.ram}`;
+                elements.configSelect.appendChild(option);
+            });
+        }
+
+        if (elements.configSelect) {
+            elements.configSelect.addEventListener('change', event => {
+                const value = event.target.value;
+                if (!value) {
+                    calculate();
+                    return;
+                }
+                const selectedId = parseInt(value, 10);
+                const config = configurations.find(item => item.configId === selectedId);
+                applyConfiguration(config);
+            });
+
+            fetch('servers.json')
+                .then(response => response.json())
+                .then(data => {
+                    configurations = data;
+                    populateConfigurations(data);
+                    if (data.length > 0) {
+                        const first = data[0];
+                        elements.configSelect.value = String(first.configId);
+                        applyConfiguration(first);
+                    } else {
+                        calculate();
+                    }
+                })
+                .catch(() => {
+                    calculate();
+                });
+        }
+
+        // Update slider values display
+        elements.revenue.addEventListener('input', () => elements.revenueValue.textContent = elements.revenue.value);
+        elements.sold.addEventListener('input', () => elements.soldValue.textContent = elements.sold.value);
+
+        // Add event listeners for changes
+        const inputs = [elements.revenue, elements.sold, elements.cores, elements.ram, elements.storage, elements.rent, elements.vlan, elements.switchEl, elements.traffic];
+        inputs.forEach(input => input.addEventListener('input', calculate));
+        elements.display.forEach(radio => radio.addEventListener('change', calculate));
+        elements.pattern.forEach(radio => radio.addEventListener('change', calculate));
+
+        function calculate() {
+            const revenuePct = parseInt(elements.revenue.value) / 100;
+            const soldPct = parseInt(elements.sold.value) / 100;
+            const cores = parseInt(elements.cores.value);
+            const ramGb = parseInt(elements.ram.value);
+            const rent = parseFloat(elements.rent.value) || 0;
+            const soldRam = ramGb * soldPct;
+            const patternKey = document.querySelector('input[name="pattern"]:checked')?.value || 'tiny';
+            const weights = patternWeights[patternKey] || patternWeights.tiny;
+            const counts = computePatternCounts(soldRam, weights);
+
+            // Optional services
+            let optional = 0;
+            if (elements.vlan.checked) optional += 30;
+            if (elements.switchEl.checked) optional += 25;
+            if (elements.traffic.checked) optional += 20;
+
+            // Base infrastructure cost without per-instance IP rent
+            const baseCost = rent + optional + (1 * cores) + 5;
+            const ipRentPerInstance = 0.5;
+            const coresFee = 1 * cores;
+            const mandatoryServices = 5;
+
+            const ipCount = Object.values(counts).reduce((sum, value) => sum + value, 0);
+            const ipCost = ipRentPerInstance * ipCount;
+            const totalSoldVcpus = instanceOrder.reduce((sum, type) => {
+                const inst = instanceMap[type];
+                return sum + (counts[type] || 0) * (inst?.vcpus || 0);
+            }, 0);
+            const totalCost = rent + optional + coresFee + mandatoryServices + ipCost;
+            const profit = revenuePct * totalCost;
+            const revenueGoal = totalCost + profit;
+            const oversellCpu = cores > 0 ? totalSoldVcpus / cores : 0;
+
+            elements.totalCost.textContent = totalCost.toFixed(2);
+            elements.oversellCpuEl.textContent = oversellCpu.toFixed(2);
+            setOversellColor(oversellCpu);
+            renderDeploymentCounts(counts);
+
+            if (elements.soldTotalInstances) {
+                elements.soldTotalInstances.textContent = ipCount.toString();
+            }
+            if (elements.soldTotalVcpus) {
+                elements.soldTotalVcpus.textContent = totalSoldVcpus.toString();
+            }
+            if (elements.soldTotalRam) {
+                elements.soldTotalRam.textContent = soldRam.toFixed(2);
+            }
+            if (elements.totalCostBreakdown) {
+                const parts = [
+                    `Server €${rent.toFixed(2)}`,
+                    `IPv4 €${ipCost.toFixed(2)}`
+                ];
+                if (optional > 0) {
+                    parts.push(`Optional €${optional.toFixed(2)}`);
+                }
+                parts.push(`Software fees €${(mandatoryServices + coresFee).toFixed(2)}`);
+                elements.totalCostBreakdown.textContent = parts.join(' + ');
+            }
+
+            const tinyInstance = instances.find(inst => inst.type === 'Tiny');
+            const order = instances.map(inst => inst.type);
+            let tinyPrice = 0;
+
+            let expectedRevenue = 0;
+            const revenueBreakdownParts = [];
+            const scenarios = order.map(type => {
+                const inst = instances.find(item => item.type === type);
+                const targetRam = inst.ram || 0;
+                const targetCount = targetRam > 0 ? Math.floor(soldRam / targetRam) : 0;
+                const leftoverRam = Math.max(0, soldRam - targetCount * targetRam);
+                const tinyCount = type === 'Tiny' || !tinyInstance ? 0 : Math.floor(leftoverRam / tinyInstance.ram);
+                const totalInstances = targetCount + tinyCount;
+                const totalCost = baseCost + (ipRentPerInstance * totalInstances);
+                const profit = revenuePct * totalCost;
+                const revenueGoal = totalCost + profit;
+                const tinyRevenue = type === 'Tiny' ? 0 : tinyCount * tinyPrice;
+                const price = targetCount > 0 ? parseFloat(((revenueGoal - tinyRevenue) / targetCount).toFixed(2)) : 0;
+
+                if (type === 'Tiny') {
+                    tinyPrice = price;
+                }
+
+                return {
+                    inst,
+                    targetCount,
+                    tinyCount,
+                    totalInstances,
+                    price
+                };
+            });
+
+            const patternCountsByType = counts;
+            scenarios.forEach(({ inst, price }) => {
+                const count = patternCountsByType[inst.type] || 0;
+                if (count > 0 && price > 0) {
+                    const amount = count * price;
+                    expectedRevenue += amount;
+                    revenueBreakdownParts.push(`${count}x ${inst.type} €${amount.toFixed(2)}`);
+                }
+            });
+            const expectedProfitValue = expectedRevenue - totalCost;
+
+            if (elements.expectedRevenue) {
+                elements.expectedRevenue.textContent = expectedRevenue.toFixed(2);
+            }
+            if (elements.expectedProfit) {
+                elements.expectedProfit.textContent = expectedProfitValue.toFixed(2);
+            }
+            if (elements.expectedRevenueDetail) {
+                elements.expectedRevenueDetail.textContent = revenueBreakdownParts.length ? revenueBreakdownParts.join(' + ') : '—';
+            }
+
+            // Generate tariffs
+            const displayMode = document.querySelector('input[name="display"]:checked').value;
+            let html = '';
+
+            if (displayMode === 'table') {
+                html = '<table class="table table-zebra w-full"><thead><tr><th>Type</th><th>vCPUs</th><th>RAM (GB)</th><th>Target Count</th><th>Price (€/month)</th></tr></thead><tbody>';
+                scenarios.forEach(({ inst, targetCount, price }) => {
+                    const priceDisplay = targetCount > 0 ? price.toFixed(2) : '—';
+                    html += `<tr><td>${inst.type}</td><td>${inst.vcpus}</td><td>${inst.ram}</td><td>${targetCount}</td><td>${priceDisplay}</td></tr>`;
+                });
+                html += '</tbody></table>';
+            } else {
+                html = '<div class="grid grid-cols-1 md:grid-cols-3 gap-4">';
+                scenarios.forEach(({ inst, targetCount, price }) => {
+                    const priceDisplay = targetCount > 0 ? price.toFixed(2) : '—';
+                    html += `<div class="card bg-base-100 shadow"><div class="card-body"><h3 class="card-title">${inst.type}</h3><p>vCPUs: ${inst.vcpus}</p><p>RAM: ${inst.ram} GB</p><p>Target count: ${targetCount}</p><p class="text-lg font-semibold">Price: €${priceDisplay}</p></div></div>`;
+                });
+                html += '</div>';
+            }
+
+            elements.results.innerHTML = html;
+        }
+
+        // Initial calculation
+        calculate();
+    </script>
+</body>
+</html>
