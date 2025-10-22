@@ -239,6 +239,12 @@
             </div>
         </section>
 
+        <div class="fixed bottom-6 right-6">
+            <button id="copy-link" class="btn btn-primary btn-lg gap-2 shadow-lg">
+                Copy link
+            </button>
+        </div>
+
     </main>
 
     <script>
@@ -305,6 +311,64 @@
         };
 
         let configurations = [];
+        const optionalServices = [
+            { elementKey: 'vlan', param: 'vlan' },
+            { elementKey: 'switchEl', param: 'switch' },
+            { elementKey: 'traffic', param: 'traffic' }
+        ];
+        const initialParams = new URLSearchParams(window.location.search || '');
+        let pendingConfigId = initialParams.get('configId');
+        const hasCustomParams = !pendingConfigId && (initialParams.has('cores') || initialParams.has('ram'));
+
+        function getSelectedPattern() {
+            return document.querySelector('input[name="pattern"]:checked')?.value || 'tiny';
+        }
+
+        function getSelectedDisplayMode() {
+            return document.querySelector('input[name="display"]:checked')?.value || 'cards';
+        }
+
+        function buildUrlParams() {
+            const params = new URLSearchParams();
+            const configValue = elements.configSelect?.value || '';
+            if (configValue) {
+                params.set('configId', configValue);
+            } else {
+                params.set('cores', elements.cores.value);
+                params.set('ram', elements.ram.value);
+            }
+            params.set('storage', elements.storage.value);
+            params.set('rent', elements.rent.value);
+            params.set('revenue', elements.revenue.value);
+            params.set('sold', elements.sold.value);
+
+            const pattern = getSelectedPattern();
+            if (pattern) {
+                params.set('pattern', pattern);
+            }
+
+            const displayMode = getSelectedDisplayMode();
+            if (displayMode) {
+                params.set('display', displayMode);
+            }
+
+            optionalServices.forEach(({ elementKey, param }) => {
+                const el = elements[elementKey];
+                if (!el) return;
+                params.set(param, el.checked ? '1' : '0');
+            });
+
+            return params;
+        }
+
+        function updateBrowserUrl() {
+            if (!window?.history?.replaceState) return;
+            const url = new URL(window.location.href);
+            const params = buildUrlParams();
+            const search = params.toString();
+            const newPath = search ? `${url.pathname}?${search}` : url.pathname;
+            window.history.replaceState(null, '', newPath);
+        }
 
         function ensureOption(selectEl, value, label) {
             const stringValue = String(value);
@@ -430,7 +494,6 @@
             }
             ensureStorageOption(config.storage_total, config.storage);
             elements.rent.value = String(config.monthlyPriceEur);
-            calculate();
         }
 
         function populateConfigurations(configs) {
@@ -442,6 +505,14 @@
                 option.textContent = `#${config.configId} · ${config.cpu} · ${config.ram}`;
                 elements.configSelect.appendChild(option);
             });
+            if (pendingConfigId) {
+                const exists = configs.some(config => String(config.configId) === pendingConfigId);
+                if (exists) {
+                    elements.configSelect.value = pendingConfigId;
+                } else {
+                    pendingConfigId = null;
+                }
+            }
         }
 
         if (elements.configSelect) {
@@ -454,6 +525,7 @@
                 const selectedId = parseInt(value, 10);
                 const config = configurations.find(item => item.configId === selectedId);
                 applyConfiguration(config);
+                calculate();
             });
 
             fetch('servers.json')
@@ -461,16 +533,28 @@
                 .then(data => {
                     configurations = data;
                     populateConfigurations(data);
-                    if (data.length > 0) {
+                    if (pendingConfigId) {
+                        const selectedId = parseInt(pendingConfigId, 10);
+                        const config = configurations.find(item => item.configId === selectedId);
+                        applyConfiguration(config);
+                    } else if (hasCustomParams) {
+                        const coresValue = initialParams.get('cores');
+                        const ramValue = initialParams.get('ram');
+                        if (coresValue) {
+                            ensureOption(elements.cores, coresValue, coresValue);
+                        }
+                        if (ramValue) {
+                            elements.ram.value = String(ramValue);
+                        }
+                    } else if (data.length > 0) {
                         const first = data[0];
                         elements.configSelect.value = String(first.configId);
                         applyConfiguration(first);
-                    } else {
-                        calculate();
                     }
+                    calculate();
                 })
                 .catch(() => {
-                    calculate();
+                    applyInitialParamsFallback();
                 });
         }
 
@@ -491,7 +575,7 @@
             const ramGb = parseInt(elements.ram.value);
             const rent = parseFloat(elements.rent.value) || 0;
             const soldRam = ramGb * soldPct;
-            const patternKey = document.querySelector('input[name="pattern"]:checked')?.value || 'tiny';
+            const patternKey = getSelectedPattern();
             const weights = patternWeights[patternKey] || patternWeights.tiny;
             const counts = computePatternCounts(soldRam, weights);
 
@@ -598,7 +682,7 @@
             }
 
             // Generate tariffs
-            const displayMode = document.querySelector('input[name="display"]:checked').value;
+            const displayMode = getSelectedDisplayMode();
             let html = '';
 
             if (displayMode === 'table') {
@@ -618,10 +702,107 @@
             }
 
             elements.results.innerHTML = html;
+            updateBrowserUrl();
         }
 
-        // Initial calculation
-        calculate();
+        function applyInitialParamsFallback() {
+            if (pendingConfigId) {
+                elements.configSelect.value = pendingConfigId;
+            }
+            if (hasCustomParams) {
+                const coresValue = initialParams.get('cores');
+                const ramValue = initialParams.get('ram');
+                if (coresValue) {
+                    ensureOption(elements.cores, coresValue, coresValue);
+                }
+                if (ramValue) {
+                    elements.ram.value = String(ramValue);
+                }
+            }
+            calculate();
+        }
+
+        function applyInitialParams() {
+            const revenueValue = initialParams.get('revenue');
+            if (revenueValue) {
+                elements.revenue.value = revenueValue;
+                elements.revenueValue.textContent = revenueValue;
+            }
+            const soldValue = initialParams.get('sold');
+            if (soldValue) {
+                elements.sold.value = soldValue;
+                elements.soldValue.textContent = soldValue;
+            }
+            const storageValue = initialParams.get('storage');
+            if (storageValue) {
+                ensureStorageOption(storageValue, `${storageValue} GB`);
+            }
+            const rentValue = initialParams.get('rent');
+            if (rentValue) {
+                elements.rent.value = rentValue;
+            }
+            const patternValue = initialParams.get('pattern');
+            if (patternValue) {
+                const patternInput = Array.from(elements.pattern).find(radio => radio.value === patternValue);
+                if (patternInput) {
+                    patternInput.checked = true;
+                }
+            }
+            const displayValue = initialParams.get('display');
+            if (displayValue) {
+                const displayInput = Array.from(elements.display).find(radio => radio.value === displayValue);
+                if (displayInput) {
+                    displayInput.checked = true;
+                }
+            }
+
+            optionalServices.forEach(({ elementKey, param }) => {
+                const el = elements[elementKey];
+                if (!el) return;
+                if (initialParams.has(param)) {
+                    el.checked = initialParams.get(param) === '1';
+                }
+            });
+
+            if (!elements.configSelect) {
+                calculate();
+                return;
+            }
+            if (!pendingConfigId && !hasCustomParams) {
+                calculate();
+            }
+        }
+
+        applyInitialParams();
+
+        const copyLinkButton = document.getElementById('copy-link');
+        if (copyLinkButton) {
+            const defaultLabel = copyLinkButton.textContent.trim();
+            let resetTimer;
+            const setState = (label, addClass) => {
+                copyLinkButton.textContent = label;
+                copyLinkButton.classList.remove('btn-primary', 'btn-success', 'btn-error');
+                copyLinkButton.classList.add(addClass);
+            };
+            const resetState = () => {
+                copyLinkButton.classList.remove('btn-success', 'btn-error');
+                copyLinkButton.classList.add('btn-primary');
+                copyLinkButton.textContent = defaultLabel;
+            };
+            copyLinkButton.addEventListener('click', async () => {
+                const url = window.location.href;
+                try {
+                    await navigator.clipboard.writeText(url);
+                    clearTimeout(resetTimer);
+                    setState('Link copied', 'btn-success');
+                    resetTimer = setTimeout(resetState, 2000);
+                } catch (error) {
+                    clearTimeout(resetTimer);
+                    setState('Copy failed', 'btn-error');
+                    resetTimer = setTimeout(resetState, 2000);
+                }
+            });
+        }
     </script>
 </body>
 </html>
