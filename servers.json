@@ -1,82 +1,532 @@
 [
   {
-    "configId": 4,
-    "cpu": "Xeon E5-1650, 3.2GHz",
+    "configId": 495,
+    "cpu": "2xE5-2680v2",
+    "cores": 10,
+    "cores_total": 20,
+    "ram": "128 GB",
+    "storage": "12x18TB HDD",
+    "storage_total": 221184,
+    "monthlyPriceEur": 349.0
+  },
+  {
+    "configId": 101,
+    "cpu": "2xE5-2680v2",
+    "cores": 10,
+    "cores_total": 20,
+    "ram": "128 GB",
+    "storage": "2x960GB SSD",
+    "storage_total": 1920,
+    "monthlyPriceEur": 100.0
+  },
+  {
+    "configId": 81,
+    "cpu": "2xE5-2680v4",
+    "cores": 14,
+    "cores_total": 28,
+    "ram": "128 GB",
+    "storage": "2x960GB SSD",
+    "storage_total": 1920,
+    "monthlyPriceEur": 120.0
+  },
+  {
+    "configId": 207,
+    "cpu": "2xE5-2680v4",
+    "cores": 14,
+    "cores_total": 28,
+    "ram": "128 GB",
+    "storage": "2x960Gb SSD",
+    "storage_total": 1920,
+    "monthlyPriceEur": 100.0
+  },
+  {
+    "configId": 177,
+    "cpu": "E5-1650v4",
     "cores": 6,
     "cores_total": 6,
-    "ram": "64 GB",
-    "storage": "960 GB SSD",
-    "monthlyPriceEur": 70,
-    "storage_total": 960
+    "ram": "128 GB",
+    "storage": "2x960GB SSD",
+    "storage_total": 1920,
+    "monthlyPriceEur": 60.0
   },
   {
-    "configId": 5,
-    "cpu": "Xeon E-2288G, 3.7GHz",
-    "cores": 8,
-    "cores_total": 8,
-    "ram": "64 GB",
-    "storage": "480 GB NVMe SSD",
-    "monthlyPriceEur": 100,
-    "storage_total": 480
+    "configId": 505,
+    "cpu": "EPYC 7402p",
+    "cores": 24,
+    "cores_total": 24,
+    "ram": "128 GB",
+    "storage": "1TB NVMe SSD",
+    "storage_total": 1024,
+    "monthlyPriceEur": 110.0
   },
   {
-    "configId": 6,
-    "cpu": "AMD Ryzen 9 5950X, 3.4GHz",
+    "configId": 78,
+    "cpu": "Ryzen 5950X",
     "cores": 16,
     "cores_total": 16,
     "ram": "128 GB",
-    "storage": "1 TB NVMe SSD",
-    "monthlyPriceEur": 180,
-    "storage_total": 1024
+    "storage": "1TB NVMe SSD",
+    "storage_total": 1024,
+    "monthlyPriceEur": 130.0
   },
   {
-    "configId": 11,
-    "cpu": "2 x AMD Opteron 4170 HE, 2.1GHz",
-    "cores": 6,
-    "cores_total": 12,
-    "ram": "64 GB",
-    "storage": "2 x 1 TB SATA",
-    "monthlyPriceEur": 55,
-    "storage_total": 2048
+    "configId": 104,
+    "cpu": "Ryzen 5950X",
+    "cores": 16,
+    "cores_total": 16,
+    "ram": "128 GB",
+    "storage": "2x1TB NVMe SSD",
+    "storage_total": 2048,
+    "monthlyPriceEur": 130.0
   },
   {
-    "configId": 20,
-    "cpu": "2 x Xeon E5-2630v4, 2.2GHz",
-    "cores": 10,
-    "cores_total": 20,
-    "ram": "64 GB",
-    "storage": "2 x 300 GB SAS 15K",
-    "monthlyPriceEur": 155,
-    "storage_total": 600
+    "configId": 396,
+    "cpu": "Ryzen 5950X",
+    "cores": 16,
+    "cores_total": 16,
+    "ram": "128 GB",
+    "storage": "1TB NVMe SSD",
+    "storage_total": 1024,
+    "monthlyPriceEur": 150.0
+  },
+  {
+    "configId": 163,
+    "cpu": "Ryzen 5950X",
+    "cores": 16,
+    "cores_total": 16,
+    "ram": "128 GB",
+    "storage": "2x1TB NVMe",
+    "storage_total": 2048,
+    "monthlyPriceEur": 140.0
+  },
+  {
+    "configId": 113,
+    "cpu": "Ryzen 7950X",
+    "cores": 16,
+    "cores_total": 16,
+    "ram": "128 GB",
+    "storage": "2x1TB NVMe SSD",
+    "storage_total": 2048,
+    "monthlyPriceEur": 140.0
+  },
+  {
+    "configId": 176,
+    "cpu": "Ryzen 7950X",
+    "cores": 16,
+    "cores_total": 16,
+    "ram": "128 GB",
+    "storage": "2x1.92TB U2 NVMe SSD",
+    "storage_total": 3932,
+    "monthlyPriceEur": 109.0
+  },
+  {
+    "configId": 168,
+    "cpu": "Ryzen 7950X",
+    "cores": 16,
+    "cores_total": 16,
+    "ram": "128 GB",
+    "storage": "1TB NVMe SSD",
+    "storage_total": 1024,
+    "monthlyPriceEur": 170.0
+  },
+  {
+    "configId": 264,
+    "cpu": "Ryzen 7950X",
+    "cores": 16,
+    "cores_total": 16,
+    "ram": "128 GB",
+    "storage": "2x1.92TB U2 NVMe",
+    "storage_total": 3932,
+    "monthlyPriceEur": 190.0
+  },
+  {
+    "configId": 160,
+    "cpu": "Ryzen 7950x",
+    "cores": 16,
+    "cores_total": 16,
+    "ram": "128 GB",
+    "storage": "2x1TB NVMe",
+    "storage_total": 2048,
+    "monthlyPriceEur": 190.0
+  },
+  {
+    "configId": 388,
+    "cpu": "Ryzen 9950X",
+    "cores": 16,
+    "cores_total": 16,
+    "ram": "128 GB",
+    "storage": "2x2TB NVMe SSD",
+    "storage_total": 4096,
+    "monthlyPriceEur": 135.0
+  },
+  {
+    "configId": 303,
+    "cpu": "Ryzen 9950X",
+    "cores": 16,
+    "cores_total": 16,
+    "ram": "128 GB",
+    "storage": "2x1TB NVMe SSD",
+    "storage_total": 2048,
+    "monthlyPriceEur": 230.0
   },
   {
     "configId": 21,
-    "cpu": "2 x Xeon E5-2630v3, 2.4GHz",
+    "cpu": "Xeon E-2288G",
     "cores": 8,
-    "cores_total": 16,
-    "ram": "64 GB",
-    "storage": "4 x 1 TB SATA",
-    "monthlyPriceEur": 165,
-    "storage_total": 4096
+    "cores_total": 8,
+    "ram": "128 GB",
+    "storage": "2x960GB SSD",
+    "storage_total": 1920,
+    "monthlyPriceEur": 90.0
   },
   {
-    "configId": 22,
-    "cpu": "2 x Xeon E5-2643v2, 3.5GHz",
-    "cores": 6,
-    "cores_total": 12,
-    "ram": "64 GB",
-    "storage": "4 x 960 GB SSD",
-    "monthlyPriceEur": 190,
-    "storage_total": 3840
+    "configId": 105,
+    "cpu": "2xE5-2680v2",
+    "cores": 10,
+    "cores_total": 20,
+    "ram": "256 GB",
+    "storage": "2x1.92TB SSD + 2x4TB HDD",
+    "storage_total": 12124,
+    "monthlyPriceEur": 180.0
   },
   {
-    "configId": 23,
-    "cpu": "2 x Xeon E5-2680v3, 2.5GHz",
-    "cores": 12,
-    "cores_total": 24,
-    "ram": "64 GB",
-    "storage": "240 GB SSD",
-    "monthlyPriceEur": 192,
-    "storage_total": 240
+    "configId": 407,
+    "cpu": "2xE5-2680v4",
+    "cores": 14,
+    "cores_total": 28,
+    "ram": "256 GB",
+    "storage": "2x1.92TB SSD",
+    "storage_total": 3932,
+    "monthlyPriceEur": 130.0
+  },
+  {
+    "configId": 129,
+    "cpu": "2xEPYC 7451",
+    "cores": 24,
+    "cores_total": 48,
+    "ram": "256 GB",
+    "storage": "2x960GB SSD",
+    "storage_total": 1920,
+    "monthlyPriceEur": 135.0
+  },
+  {
+    "configId": 171,
+    "cpu": "2xEPYC 7451",
+    "cores": 24,
+    "cores_total": 48,
+    "ram": "256 GB",
+    "storage": "2x1.92TB SSD",
+    "storage_total": 3932,
+    "monthlyPriceEur": 210.0
+  },
+  {
+    "configId": 116,
+    "cpu": "2xEPYC 7551",
+    "cores": 32,
+    "cores_total": 64,
+    "ram": "256 GB",
+    "storage": "2x1.92TB SSD",
+    "storage_total": 3932,
+    "monthlyPriceEur": 220.0
+  },
+  {
+    "configId": 201,
+    "cpu": "2xGold 6140",
+    "cores": 18,
+    "cores_total": 36,
+    "ram": "256 GB",
+    "storage": "2x1.92TB SSD",
+    "storage_total": 3932,
+    "monthlyPriceEur": 140.0
+  },
+  {
+    "configId": 210,
+    "cpu": "2xGold 6140",
+    "cores": 18,
+    "cores_total": 36,
+    "ram": "256 GB",
+    "storage": "2x1.92TB SSD",
+    "storage_total": 3932,
+    "monthlyPriceEur": 150.0
+  },
+  {
+    "configId": 130,
+    "cpu": "EPYC 7542",
+    "cores": 32,
+    "cores_total": 32,
+    "ram": "256 GB",
+    "storage": "2x1.92TB SSD",
+    "storage_total": 3932,
+    "monthlyPriceEur": 199.0
+  },
+  {
+    "configId": 112,
+    "cpu": "EPYC 7551",
+    "cores": 32,
+    "cores_total": 32,
+    "ram": "256 GB",
+    "storage": "2x960Gb SSD",
+    "storage_total": 1920,
+    "monthlyPriceEur": 159.0
+  },
+  {
+    "configId": 107,
+    "cpu": "2xE5-2680v2",
+    "cores": 10,
+    "cores_total": 20,
+    "ram": "384 GB",
+    "storage": "2x3.84TB SSD + 2x8TB HDD",
+    "storage_total": 24248,
+    "monthlyPriceEur": 200.0
+  },
+  {
+    "configId": 140,
+    "cpu": "2xEPYC 7451",
+    "cores": 24,
+    "cores_total": 48,
+    "ram": "384 GB",
+    "storage": "4x1.92TB SSD",
+    "storage_total": 7864,
+    "monthlyPriceEur": 250.0
+  },
+  {
+    "configId": 222,
+    "cpu": "2xEPYC 7551",
+    "cores": 32,
+    "cores_total": 64,
+    "ram": "384 GB",
+    "storage": "2x1.92TB SSD",
+    "storage_total": 3932,
+    "monthlyPriceEur": 250.0
+  },
+  {
+    "configId": 309,
+    "cpu": "2xEPYC 7551",
+    "cores": 32,
+    "cores_total": 64,
+    "ram": "384 GB",
+    "storage": "2x1.92TB NVMe SSD",
+    "storage_total": 3932,
+    "monthlyPriceEur": 299.0
+  },
+  {
+    "configId": 490,
+    "cpu": "2xEPYC 9124",
+    "cores": 16,
+    "cores_total": 32,
+    "ram": "384 GB",
+    "storage": "2x1TB NVMe SSD",
+    "storage_total": 2048,
+    "monthlyPriceEur": 299.0
+  },
+  {
+    "configId": 485,
+    "cpu": "EPYC 9354",
+    "cores": 32,
+    "cores_total": 32,
+    "ram": "384 GB",
+    "storage": "2x2TB NVMe SSD",
+    "storage_total": 4096,
+    "monthlyPriceEur": 299.0
+  },
+  {
+    "configId": 314,
+    "cpu": "EPYC 9354",
+    "cores": 32,
+    "cores_total": 32,
+    "ram": "384 GB",
+    "storage": "2x2TB NVMe SSD",
+    "storage_total": 4096,
+    "monthlyPriceEur": 319.0
+  },
+  {
+    "configId": 470,
+    "cpu": "EPYC 9354",
+    "cores": 32,
+    "cores_total": 32,
+    "ram": "384 GB",
+    "storage": "2x2TB NVMe SSD",
+    "storage_total": 4096,
+    "monthlyPriceEur": 450.0
+  },
+  {
+    "configId": 198,
+    "cpu": "2xEPYC 7502",
+    "cores": 32,
+    "cores_total": 64,
+    "ram": "512 GB",
+    "storage": "2x3.84TB NVMe SSD",
+    "storage_total": 7864,
+    "monthlyPriceEur": 350.0
+  },
+  {
+    "configId": 249,
+    "cpu": "2xEPYC 7542",
+    "cores": 32,
+    "cores_total": 64,
+    "ram": "512 GB",
+    "storage": "2x2TB NVMe SSD",
+    "storage_total": 4096,
+    "monthlyPriceEur": 320.0
+  },
+  {
+    "configId": 261,
+    "cpu": "2xEPYC 7542",
+    "cores": 32,
+    "cores_total": 64,
+    "ram": "512 GB",
+    "storage": "2x3.84TB SSD",
+    "storage_total": 7864,
+    "monthlyPriceEur": 299.0
+  },
+  {
+    "configId": 270,
+    "cpu": "2xEPYC 7742",
+    "cores": 64,
+    "cores_total": 128,
+    "ram": "512 GB",
+    "storage": "2x2TB NVMe SSD",
+    "storage_total": 4096,
+    "monthlyPriceEur": 399.0
+  },
+  {
+    "configId": 306,
+    "cpu": "2xEPYC 7742",
+    "cores": 64,
+    "cores_total": 128,
+    "ram": "512 GB",
+    "storage": "2x3.84TB NVMe SSD",
+    "storage_total": 7864,
+    "monthlyPriceEur": 449.0
+  },
+  {
+    "configId": 386,
+    "cpu": "2xSilver 4416+",
+    "cores": 20,
+    "cores_total": 40,
+    "ram": "512 GB",
+    "storage": "2x3.84TB NVMe SSD",
+    "storage_total": 7864,
+    "monthlyPriceEur": 299.0
+  },
+  {
+    "configId": 246,
+    "cpu": "EPYC 7702",
+    "cores": 64,
+    "cores_total": 64,
+    "ram": "512 GB",
+    "storage": "2x1.92TB NVMe SSD",
+    "storage_total": 3932,
+    "monthlyPriceEur": 299.0
+  },
+  {
+    "configId": 258,
+    "cpu": "EPYC 7702",
+    "cores": 64,
+    "cores_total": 64,
+    "ram": "512 GB",
+    "storage": "2x1.92TB NVMe SSD",
+    "storage_total": 3932,
+    "monthlyPriceEur": 249.0
+  },
+  {
+    "configId": 428,
+    "cpu": "2xEPYC 7451",
+    "cores": 24,
+    "cores_total": 48,
+    "ram": "768 GB",
+    "storage": "4x3.84TB SSD",
+    "storage_total": 15729,
+    "monthlyPriceEur": 399.0
+  },
+  {
+    "configId": 433,
+    "cpu": "2xEPYC 7542",
+    "cores": 32,
+    "cores_total": 64,
+    "ram": "768 GB",
+    "storage": "2x7.68TB NVMe SSD",
+    "storage_total": 15729,
+    "monthlyPriceEur": 650.0
+  },
+  {
+    "configId": 418,
+    "cpu": "2xEPYC 9124",
+    "cores": 16,
+    "cores_total": 32,
+    "ram": "768 GB",
+    "storage": "2x3.84TB NVMe SSD",
+    "storage_total": 7864,
+    "monthlyPriceEur": 399.0
+  },
+  {
+    "configId": 157,
+    "cpu": "2xGold 6330",
+    "cores": 28,
+    "cores_total": 56,
+    "ram": "768 GB",
+    "storage": "4x3.84TB NVMe",
+    "storage_total": 15729,
+    "monthlyPriceEur": 349.0
+  },
+  {
+    "configId": 446,
+    "cpu": "EPYC 9354",
+    "cores": 32,
+    "cores_total": 32,
+    "ram": "768 GB",
+    "storage": "2x3.84TB NVMe SSD",
+    "storage_total": 7864,
+    "monthlyPriceEur": 439.0
+  },
+  {
+    "configId": 413,
+    "cpu": "EPYC 9354",
+    "cores": 32,
+    "cores_total": 32,
+    "ram": "768 GB",
+    "storage": "2x3.84TB NVMe SSD",
+    "storage_total": 7864,
+    "monthlyPriceEur": 439.0
+  },
+  {
+    "configId": 408,
+    "cpu": "EPYC 9354",
+    "cores": 32,
+    "cores_total": 32,
+    "ram": "768 GB",
+    "storage": "2x3.84TB NVMe SSD",
+    "storage_total": 7864,
+    "monthlyPriceEur": 750.0
+  },
+  {
+    "configId": 255,
+    "cpu": "2xEPYC 9354",
+    "cores": 32,
+    "cores_total": 64,
+    "ram": "1024 GB",
+    "storage": "2x3.84TB NVMe SSD",
+    "storage_total": 7864,
+    "monthlyPriceEur": 549.0
+  },
+  {
+    "configId": 423,
+    "cpu": "2xEPYC 9654",
+    "cores": 96,
+    "cores_total": 192,
+    "ram": "1512 GB",
+    "storage": "2x7.68TB NVMe SSD",
+    "storage_total": 15729,
+    "monthlyPriceEur": 1090.0
+  },
+  {
+    "configId": 462,
+    "cpu": "2xEPYC 9654",
+    "cores": 96,
+    "cores_total": 192,
+    "ram": "3072 GB",
+    "storage": "4x7.68TB NVMe",
+    "storage_total": 31457,
+    "monthlyPriceEur": 1690.0
   }
 ]
